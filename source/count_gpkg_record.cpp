@@ -1,5 +1,6 @@
 //***********************************************************************************************************
 // Record Count for GPKG File
+// (c)AISIN 2021/11/28
 //***********************************************************************************************************
 
 //
@@ -25,7 +26,7 @@ int main(int argc, char** argv)
     std::string file_bin  = argv[0];
     std::string gpkg_file = argv[1];
 
-
+    
     GDALAllRegister();
 
     GDALDatasetUniquePtr poDS(GDALDataset::Open(gpkg_file.c_str(), GDAL_OF_VECTOR));
@@ -39,7 +40,9 @@ int main(int argc, char** argv)
     for (auto poLayer : poDS->GetLayers())
     {
         // std::cout << poLayer->GetDescription() << std::endl;
-        std::wcout << poLayer->GetFeatureCount() << " (record)," << "Layer= " << poLayer->GetName() << ",file= " << gpkg_file.c_str() << std::endl;
+        std::cout << "file  = " << gpkg_file.c_str() << std::endl;
+        std::cout << "Layer = " << poLayer->GetName() << std::endl;
+        std::cout << "count = " << poLayer->GetFeatureCount() << " (record)" << std::endl;
 
         /*
         for (const auto& poFeature : *poLayer)
@@ -52,7 +55,7 @@ int main(int argc, char** argv)
                 if (oField.IsNull()) {
                     printf("(null)");
                 }
-                else{
+                else{              
                     switch (oField.GetType())
                     {
                     case OFTInteger:
@@ -83,7 +86,7 @@ int main(int argc, char** argv)
                 const OGRPoint*        poPoint;
                 const OGRLineString*   poLineString;
 
-                switch (wkbFlatten(poGeometry->getGeometryType()))
+                switch (wkbFlatten(poGeometry->getGeometryType())) 
                 {
                 case wkbPoint :
                     poPoint = poGeometry->toPoint();
